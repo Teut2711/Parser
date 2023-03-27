@@ -2,38 +2,18 @@
 const fs = require("fs");
 const Node = require("./Node");
 
-class DeserializerText {
-  async deserializeFile(path) {
-    try {
-      let data = await fs.promises.readFile(path, "utf8");
-      this.#deserialize(data);
-    } catch (err) {
-      throw new Error(`Problem in building tree ${err.message}`);
-    }
-  }
-  deserializeText(text) {
-    try {
-      this.#deserialize(text);
-    } catch (err) {
-      throw new Error(`Problem in building tree ${err.message}`);
-    }
-  }
-  #deserialize(data) {
+class Deserializer {
+  deserialize(data) {
     data = data.split("\n");
 
     const [index, label] = this.#getIndexAndLabel(data[0]);
-    const root = new Node(index, label);
+    let root = new Node(index, label);
     let start = 1;
     let end = data.length - 1;
     this.#buildTree(root, data, start, end, 0);
-    this.#root = root;
+    return root;
   }
-  getTreeDS() {
-    return this.#root;
-  }
-  getJsonTree() {
-    return this.#root.getJson();
-  }
+ 
   #buildTree(root, data, start, end, parentIndent) {
     for (let i = start; i <= end; i++) {
       const currIndent = (data[i].match(/^\s*/) || [""])[0].length / 4;
@@ -74,5 +54,5 @@ class DeserializerText {
 }
 
 module.exports = {
-  DeserializerText,
+  Deserializer,
 };
