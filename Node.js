@@ -7,5 +7,14 @@ class Node {
   addChildren(node) {
     this.children.push(node);
   }
+
+  getJson() {
+    return {
+      [this.index]: {
+        label: this.label,
+        children: this.children.map((node) => node.getJson()),
+      },
+    };
+  }
 }
 module.exports = Node;

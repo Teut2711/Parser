@@ -2,39 +2,43 @@
 const fs = require("fs");
 const Node = require("./Node");
 
-class Deserializer {
+class DeserializerText {
   constructor(path) {
-    this.#path = path;
+    this._path = path;
   }
 
   async deserialize() {
-    let path = this.#path;
+    let path = this._path;
     try {
       let data = await fs.promises.readFile(path, "utf8");
       data = data.split("\n");
-      const [index, label] = getIndexAndLabel(data[0]);
+      const [index, label] = this._getIndexAndLabel(data[0]);
       const root = new Node(index, label);
       let start = 1;
       let end = data.length - 1;
-      buildTree(root, data, start, end, 0);
+      this._buildTree(root, data, start, end, 0);
+      this._root = root;
     } catch (err) {
-      console.log(err);
+      throw new Error(`Problem in building tree ${err.message}`);
     }
   }
-  buildTree(root, data, start, end, parentIndent) {
+  getJsonTree() {
+    return this._root.getJson();
+  }
+  _buildTree(root, data, start, end, parentIndent) {
     for (let i = start; i <= end; i++) {
       const currIndent = (data[i].match(/^\s*/) || [""])[0].length / 4;
       if (currIndent < parentIndent) {
         return;
       }
       if (currIndent === parentIndent + 1) {
-        const [index, label] = getIndexAndLabel(data[i]);
+        const [index, label] = this._getIndexAndLabel(data[i]);
         root.addChildren(new Node(index, label));
       } else {
         let start = i;
         let end = data.length - 1;
 
-        buildTree(
+        this._buildTree(
           root.children[root.children.length - 1],
           data,
           start,
@@ -46,7 +50,7 @@ class Deserializer {
     }
   }
 
-  getIndexAndLabel(str) {
+  _getIndexAndLabel(str) {
     const regexPattern = /^\s*\d+:\s*(.*)$/;
     const match = str.match(regexPattern);
 
@@ -61,5 +65,5 @@ class Deserializer {
 }
 
 module.exports = {
-  Deserializer,
+  DeserializerText,
 };
