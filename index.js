@@ -15,7 +15,7 @@ app.route("/api/v1/tree").get(async (req, res) => {
     const text = await fs.promises.readFile(filePath);
 
     let deserializer = new DeserializerText(filePath);
-    await deserializer.deserialize();
+    await deserializer.deserializeFile(filePath);
 
     res.status(200).json({
       status: "success",
