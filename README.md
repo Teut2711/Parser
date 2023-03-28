@@ -4,7 +4,7 @@ NOTE : Currently I have not written tests but will am in progress of writing. Bu
 
 1. Clone the repository
 2. npm i
-3. node index.js
+3. npm start
 4. Go to postman 
 5. Create a GET request : localhost:3000/api/v1/tree
 6. Create a POST request : localhost:3000/api/v1/tree
@@ -17,6 +17,9 @@ NOTE : Currently I have not written tests but will am in progress of writing. Bu
 }
 ```
    
+#### To view html JSDoc:
+
+1. Run ./docs/index.html 
 
 
 
