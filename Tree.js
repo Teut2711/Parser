@@ -29,6 +29,7 @@ class Tree {
     const index = this.#countNodes(this.#root) + 1;
 
     this.#root.addChild(parentIndex, index, label);
+    this.#renumber(this.#root, 0)
   }
 
   #countNodes(root) {
@@ -40,6 +41,19 @@ class Tree {
       count += this.#countNodes(child);
     }
     return count;
+  }
+
+  #renumber(root, index) {
+    if (!root)
+      return 0;
+    if (root.children === null) {
+      return index;
+    }
+    root.index = ++index;
+    for (let i = 0; i < root.children.length; i++) {
+      index = this.#renumber(root.children[i], index);
+    }
+    return index;
   }
 }
 module.exports = {
