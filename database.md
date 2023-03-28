@@ -1,5 +1,5 @@
 
-Q3:
+# Q3:
 
 Table: categories
 1.	id (integer, primary key)
@@ -24,7 +24,8 @@ This data schema allows for efficient querying of categories and their relations
 
 
 
-Q4
+#Q4
+
 The two routes mentioned above are:
 •	Retrieve a category and its children
 •	Create a new category
