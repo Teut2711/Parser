@@ -5,8 +5,10 @@ Table: categories
 1.	id (integer, primary key)
 2.	name (string)
 3.	parent_id (integer, foreign key to categories(id), nullable)
+
 This schema uses a single table to represent the categories and their relationships. Each row in the table represents a category, and the parent-child relationships between categories are represented using a foreign key to the parent category's id.
 Using this schema, the data from the tree above would be stored as follows:
+
 | id | Name     | parent_id |
 |----|----------|-----------|
 | 1  | Root     | null      |
