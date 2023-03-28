@@ -10,7 +10,7 @@ app.use(express.json());
 
 app
   .route("/api/v1/tree")
-  .get(async (req, res) => {
+  .get(async (_, res) => {
     try {
       const filePath = __dirname + "/data.txt";
 

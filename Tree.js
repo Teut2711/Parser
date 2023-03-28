@@ -1,5 +1,6 @@
 const fs = require("fs"); // use promises version of fs module
-const { Deserializer } = require("./Deserializer");
+const Deserializer = require("./Deserializer");
+const Serializer = require("./Serializer");
 
 class Tree {
   #root;
@@ -29,7 +30,10 @@ class Tree {
     const index = this.#countNodes(this.#root) + 1;
 
     this.#root.addChild(parentIndex, index, label);
-    this.#renumber(this.#root, 0)
+    this.#renumber(this.#root, 0);
+    const serializer = new Serializer(this.#root);
+    serializer.serialize();
+    serializer.saveToFile();
   }
 
   #countNodes(root) {
@@ -44,8 +48,7 @@ class Tree {
   }
 
   #renumber(root, index) {
-    if (!root)
-      return 0;
+    if (!root) return 0;
     if (root.children === null) {
       return index;
     }

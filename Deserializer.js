@@ -63,6 +63,4 @@ class Deserializer {
   }
 }
 
-module.exports = {
-  Deserializer,
-};
+module.exports = Deserializer;
