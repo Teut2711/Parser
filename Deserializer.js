@@ -13,12 +13,12 @@ class Deserializer {
     this.#buildTree(root, data, start, end, 0);
     return root;
   }
- 
+
   #buildTree(root, data, start, end, parentIndent) {
     for (let i = start; i <= end; i++) {
       const currIndent = (data[i].match(/^\s*/) || [""])[0].length / 4;
       if (currIndent < parentIndent) {
-        return;
+        return ;
       }
       if (currIndent === parentIndent + 1) {
         const [index, label] = this.#getIndexAndLabel(data[i]);

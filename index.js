@@ -1,32 +1,52 @@
 "use strict";
 const express = require("express");
-const bodyParser = require("body-parser");
-const fs = require("fs"); // use promises version of fs module
+const fs = require("fs");
 const { Tree } = require("./Tree");
 const port = parseInt(process.env.PORT) || 3000;
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
 
-app.route("/api/v1/tree").get(async (req, res) => {
-  try {
-    const filePath = __dirname + "/data.txt";
+app
+  .route("/api/v1/tree")
+  .get(async (req, res) => {
+    try {
+      const filePath = __dirname + "/data.txt";
 
-    let tree = new Tree();
-    await tree.constructFromFile(filePath);
-    res.status(200).json({
-      status: "success",
-      data: [tree.getJson()],
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      status: "error",
-      message: `Error :\n${err.message}`,
-    });
-  }
-});
+      let tree = new Tree();
+      await tree.constructFromFile(filePath);
+      res.status(200).json({
+        status: "success",
+        data: [tree.getJson()],
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({
+        status: "error",
+        message: `Error :\n${err.message}`,
+      });
+    }
+  })
+  .post(async (req, res) => {
+    try {
+      const filePath = __dirname + "/data.txt";
+      const { parent, label } = req.body;
+      let tree = new Tree();
+      await tree.constructFromFile(filePath);
+      tree.addChild(parent, label);
+      res.status(200).json({
+        status: "success",
+        data: [tree.getJson()],
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({
+        status: "error",
+        message: `Error :\n${err.message}`,
+      });
+    }
+  });
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);

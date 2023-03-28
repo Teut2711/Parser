@@ -1,4 +1,5 @@
 class Node {
+  
   constructor(index, label) {
     this.index = index;
     this.label = label;
@@ -16,5 +17,16 @@ class Node {
       },
     };
   }
+  addChild(parentIndex, index, label) {
+    if (this.index == parentIndex) {
+      this.children.push(new Node(index, label));
+     
+    } else {
+      for (let child of this.children) {
+        child.addChild(parentIndex, index, label);
+      }
+    }
+  }
 }
+
 module.exports = Node;
