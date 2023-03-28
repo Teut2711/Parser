@@ -18,14 +18,24 @@ class Deserializer {
     for (let i = start; i <= end; i++) {
       const currIndent = (data[i].match(/^\s*/) || [""])[0].length / 4;
       if (currIndent < parentIndent) {
-        return ;
+        return;
       }
       if (currIndent === parentIndent + 1) {
         const [index, label] = this.#getIndexAndLabel(data[i]);
         root.addChildren(new Node(index, label));
       } else {
         let start = i;
-        let end = data.length - 1;
+        let end = i;
+        let levelIndent = parentIndent + 1;
+        let nextIndent = currIndent;
+
+        for (
+          let end = i;
+          end <= data.length - 1 && nextIndent != levelIndent;
+          end++
+        ) {
+          nextIndent = (data[i].match(/^\s*/) || [""])[0].length / 4;
+        }
 
         this.#buildTree(
           root.children[root.children.length - 1],
