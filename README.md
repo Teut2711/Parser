@@ -1,3 +1,23 @@
+#### To Run:
+
+1. Clone the repository
+2. npm i
+3. node index.js
+4. Go to postman 
+5. Create a GET request : localhost:3000/api/v1/tree
+6. Create a POST request : localhost:3000/api/v1/tree
+7. In the POST request of step 6 the type of body is JSON in postman
+   
+```json
+{
+    "parent": "6",
+    "label": "cow"
+}
+```
+   
+
+
+
 # Hinge Health Services Code Challenge
 
 ## Welcome. Thank you for taking the time to collaborate with us today.
